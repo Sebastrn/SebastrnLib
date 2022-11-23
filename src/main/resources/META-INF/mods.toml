@@ -1,0 +1,18 @@
+modLoader = "javafml"
+loaderVersion = "[40,)"
+license = "MIT"
+[[mods]]
+modId = "sebastrnlib"
+version = "${file.jarVersion}"
+displayName = "Sebastrn Lib"
+logoFile = "logo.png"
+authors = "ItsSebastrn"
+description = '''
+A common lib project for Sebastrn's mods
+'''
+[[dependencies.sebastrnlib]]
+modId="patchouli"
+mandatory=true
+versionRange="[1.18.2-71.1,)"
+ordering="BEFORE"
+side="BOTH"

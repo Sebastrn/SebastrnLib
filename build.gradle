@@ -1,0 +1,174 @@
+buildscript {
+    repositories {
+        maven { url = 'https://maven.minecraftforge.net' }
+//        maven { url = "https://repo.spongepowered.org/maven" }
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+//        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
+    }
+}
+
+plugins {
+    id 'eclipse'
+    id 'maven-publish'
+}
+apply plugin: 'net.minecraftforge.gradle'
+//apply plugin: "org.spongepowered.mixin"
+
+version = '1.0.0'
+def env = System.getenv()
+if (env.BUILD_NUMBER) {
+    version = version + "+" + "${env.BUILD_NUMBER}"
+}
+group = 'dev.smolinacadena'
+archivesBaseName = 'sebastrnlib'
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+minecraft {
+    mappings channel: 'official', version: '1.18.2'
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+
+//            property "mixin.env.disableRefMap", "true"
+//            property "mixin.debug.export", "true"
+//            property "mixin.debug.export.decompile", "false"
+//            property "mixin.debug.verbose", "true"
+//            property "mixin.debug.dumpTargetOnFailure", "true"
+//            property "mixin.checks", "true"
+//            property "mixin.hotSwap", "true"
+
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            property 'forge.enabledGameTestNamespaces', 'sebastrnlib'
+            mods {
+                sebastrnlib {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            property 'forge.enabledGameTestNamespaces', 'sebastrnlib'
+            mods {
+                sebastrnlib {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        gameTestServer {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            property 'forge.enabledGameTestNamespaces', 'sebastrnlib'
+            mods {
+                sebastrnlib {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        data {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            args '--mod', 'sebastrnlib', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+            mods {
+                sebastrnlib {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+repositories {
+    maven {
+        url 'https://maven.blamejared.com'
+    }
+
+    maven {
+        url "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
+}
+
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.18.2-40.1.60'
+
+    compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.18.2-71.1:api")
+    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.18.2-71.1")
+
+    runtimeOnly fg.deobf('curse.maven:balm-531761:3914491')
+    runtimeOnly fg.deobf('curse.maven:cooking-for-blockheads-231484:4065856')
+    runtimeOnly fg.deobf('curse.maven:refined-storage-243076:3921390')
+    runtimeOnly fg.deobf("curse.maven:applied-energistics-2-223794:4013849")
+
+    runtimeOnly fg.deobf('curse.maven:refined-cooking-543972:4065892')
+    runtimeOnly fg.deobf('curse.maven:applied-cooking-689579:4065903')
+
+    implementation fg.deobf('curse.maven:jade-324717:3970956')
+    implementation fg.deobf("curse.maven:the-one-probe-245211:3965688")
+
+    runtimeOnly fg.deobf('curse.maven:jei-238222:3940240')
+    runtimeOnly fg.deobf('curse.maven:nbt-tool-451553:3748971')
+
+    runtimeOnly fg.deobf('curse.maven:pams-harvestcraft-2-food-core-372534:3951938')
+    runtimeOnly fg.deobf('curse.maven:pams-harvestcraft-2-crops-361385:3952167')
+    runtimeOnly fg.deobf('curse.maven:pams-harvestcraft-2-food-extended-402231:3998848')
+    runtimeOnly fg.deobf('curse.maven:pams-harvestcraft-2-trees-365460:3951942')
+    runtimeOnly fg.deobf("curse.maven:aquaculture-60028:3948611")
+    runtimeOnly fg.deobf("curse.maven:farmers-delight-398521:3999153")
+    runtimeOnly fg.deobf("curse.maven:croptopia-415438:3947782")
+}
+
+jar {
+    manifest {
+        attributes([
+                "Specification-Title"     : "sebastrnlib",
+                "Specification-Vendor"    : "smolinacadena",
+                "Specification-Version"   : "1", // We are version 1 of ourselves
+                "Implementation-Title"    : project.name,
+                "Implementation-Version"  : "${version}",
+                "Implementation-Vendor"   : "smolinacadena",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+}
+
+jar.finalizedBy('reobfJar')
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = project.group
+            artifactId = project.archivesBaseName
+            version = project.version
+            artifact jar
+        }
+    }
+    repositories {
+        maven {
+            url "file://${project.projectDir}/mcmodsrepo"
+        }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+}
