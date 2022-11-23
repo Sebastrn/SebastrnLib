@@ -1,12 +1,10 @@
 buildscript {
     repositories {
         maven { url = 'https://maven.minecraftforge.net' }
-//        maven { url = "https://repo.spongepowered.org/maven" }
         mavenCentral()
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-//        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
     }
 }
 
@@ -15,7 +13,6 @@ plugins {
     id 'maven-publish'
 }
 apply plugin: 'net.minecraftforge.gradle'
-//apply plugin: "org.spongepowered.mixin"
 
 version = '1.0.0'
 def env = System.getenv()
@@ -36,14 +33,6 @@ minecraft {
 
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-
-//            property "mixin.env.disableRefMap", "true"
-//            property "mixin.debug.export", "true"
-//            property "mixin.debug.export.decompile", "false"
-//            property "mixin.debug.verbose", "true"
-//            property "mixin.debug.dumpTargetOnFailure", "true"
-//            property "mixin.checks", "true"
-//            property "mixin.hotSwap", "true"
 
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
