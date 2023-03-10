@@ -15,13 +15,17 @@
     {
       "type": "patchouli:image",
       "title": "entry.refinedcooking.kitchenaccesspoint.page2.title",
-      "images": ["sebastrnlib:textures/gui/entries/refinedcooking-kitchenaccesspoint-disconnected.png"],
+      "images": [
+        "sebastrnlib:textures/gui/entries/refinedcooking-kitchenaccesspoint-disconnected.png"
+      ],
       "text": "entry.refinedcooking.kitchenaccesspoint.page2"
     },
     {
       "type": "patchouli:image",
       "title": "entry.refinedcooking.kitchenaccesspoint.page3.title",
-      "images": ["sebastrnlib:textures/gui/entries/refinedcooking-kitchenaccesspoint-connected.png"],
+      "images": [
+        "sebastrnlib:textures/gui/entries/refinedcooking-kitchenaccesspoint-connected.png"
+      ],
       "text": "entry.refinedcooking.kitchenaccesspoint.page3"
     }
   ],
