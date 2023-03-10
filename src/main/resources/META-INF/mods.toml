@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[40,)"
+loaderVersion = "[44,)"
 license = "MIT"
 [[mods]]
 modId = "sebastrnlib"
@@ -13,6 +13,6 @@ A common lib project for Sebastrn's mods
 [[dependencies.sebastrnlib]]
 modId = "patchouli"
 mandatory = true
-versionRange = "[1.19.2-77,)"
+versionRange = "[1.19.3-78,)"
 ordering = "BEFORE"
 side = "BOTH"
