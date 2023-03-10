@@ -5,7 +5,9 @@
   "pages": [
     {
       "type": "patchouli:image",
-      "images": ["sebastrnlib:textures/gui/entries/meloncube.png"],
+      "images": [
+        "sebastrnlib:textures/gui/entries/meloncube.png"
+      ],
       "text": "entry.meloncube.promo.page0"
     },
     {

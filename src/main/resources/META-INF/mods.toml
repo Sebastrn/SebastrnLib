@@ -11,8 +11,8 @@ description = '''
 A common lib project for Sebastrn's mods
 '''
 [[dependencies.sebastrnlib]]
-modId="patchouli"
-mandatory=true
-versionRange="[1.18.2-71.1,)"
-ordering="BEFORE"
-side="BOTH"
+modId = "patchouli"
+mandatory = true
+versionRange = "[1.19.2-77,)"
+ordering = "BEFORE"
+side = "BOTH"
